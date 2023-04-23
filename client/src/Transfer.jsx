@@ -1,7 +1,8 @@
 import { useState } from "react";
 import server from "./server";
 
-function Transfer({ address, setBalance }) {
+function Transfer({ address, setBalance, privateKey, setPrivateKey }) {
+  console.log(address);
   const [sendAmount, setSendAmount] = useState("");
   const [recipient, setRecipient] = useState("");
 
@@ -15,6 +16,7 @@ function Transfer({ address, setBalance }) {
         data: { balance },
       } = await server.post(`send`, {
         sender: address,
+        privateKey: privateKey,
         amount: parseInt(sendAmount),
         recipient,
       });
@@ -43,6 +45,15 @@ function Transfer({ address, setBalance }) {
           placeholder="Type an address, for example: 0x2"
           value={recipient}
           onChange={setValue(setRecipient)}
+        ></input>
+      </label>
+
+      <label>
+        Sign transaction with private key:
+        <input
+          placeholder="private key"
+          value={privateKey}
+          onChange={setValue(setPrivateKey)}
         ></input>
       </label>
 
